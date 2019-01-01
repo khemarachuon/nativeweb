@@ -1,0 +1,262 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.khemarachuon.nativeweb</groupId>
+		<artifactId>bom</artifactId>
+		<version>1.0.0</version>
+	</parent>
+	<artifactId>parent</artifactId>
+	<packaging>pom</packaging>
+
+	<modules>
+		<module>simple-app</module>
+	</modules>
+
+	<properties>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>${maven.compiler.source}</maven.compiler.target>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>${project.build.sourceEncoding}</project.reporting.outputEncoding>
+		
+		<!-- frontend-maven-plugin properties -->
+		<!-- Compatible node and npm versions: https://nodejs.org/en/download/releases/ -->
+		<nodeVersion>v10.15.0</nodeVersion>
+		<npmVersion>6.4.1</npmVersion>
+		
+		<!-- versions -->
+		<slf4j.version>1.7.25</slf4j.version>
+		<surefire.version>3.0.0-M1</surefire.version>
+	</properties>
+
+	<dependencyManagement>
+		<dependencies>
+			<!-- test dependencies -->
+			
+			<!-- compile dependencies -->
+			
+			<!-- runtime dependencies -->
+			
+			<!-- provided dependencies -->
+		</dependencies>
+	</dependencyManagement>
+	
+	<build>
+		<pluginManagement>
+			<plugins>
+				<!-- eclipse lifecycle ignore -->
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>1.0.0</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
+				</plugin>
+				
+				<!-- build plugins -->
+				<plugin>
+					<groupId>com.github.eirslett</groupId>
+					<artifactId>frontend-maven-plugin</artifactId>
+					<version>1.6</version>
+					<executions>
+						<execution>
+							<id>install-node-and-npm</id>
+							<phase>generate-resources</phase>
+							<goals>
+								<goal>install-node-and-npm</goal>
+							</goals>
+							<configuration>
+								<skip>${skipNpmInstall}</skip>
+								<skipTests>${skipNpmInstall}</skipTests>
+							</configuration>
+						</execution>
+						
+						<execution>
+							<id>npm-install-angular-cli</id>
+							<phase>generate-resources</phase>
+							<goals>
+								<goal>npm</goal>
+							</goals>
+							<configuration>
+								<skip>${skipNpmInstall}</skip>
+								<skipTests>${skipNpmInstall}</skipTests>
+								<arguments>install --global @angular/cli</arguments>
+							</configuration>
+						</execution>
+						<execution>
+							<id>npm-install-webdriver-manager</id>
+							<phase>generate-resources</phase>
+							<goals>
+								<goal>npm</goal>
+							</goals>
+							<configuration>
+								<skip>${skipNpmInstall}</skip>
+								<skipTests>${skipNpmInstall}</skipTests>
+								<arguments>install --global webdriver-manager</arguments>
+							</configuration>
+						</execution>
+						<execution>
+							<id>npm-install-webdriver-manager-update</id>
+							<phase>generate-resources</phase>
+							<goals>
+								<goal>npm</goal>
+							</goals>
+							<configuration>
+								<skip>${skipNpmInstall}</skip>
+								<skipTests>${skipNpmInstall}</skipTests>
+								<arguments>run-script webdriver-manager-update</arguments>
+							</configuration>
+						</execution>
+						<execution>
+							<id>npm-install-cross-var</id>
+							<phase>generate-resources</phase>
+							<goals>
+								<goal>npm</goal>
+							</goals>
+							<configuration>
+								<skip>${skipNpmInstall}</skip>
+								<skipTests>${skipNpmInstall}</skipTests>
+								<arguments>install cross-var</arguments>
+							</configuration>
+						</execution>
+						
+						<execution>
+							<id>npm-install</id>
+							<phase>generate-resources</phase>
+							<goals>
+								<goal>npm</goal>
+							</goals>
+							<configuration>
+								<skip>${skipNpmInstall}</skip>
+								<skipTests>${skipNpmInstall}</skipTests>
+								<arguments>install</arguments>
+							</configuration>
+						</execution>
+						<execution>
+							<id>npm-audit-fix</id>
+							<phase>generate-resources</phase>
+							<goals>
+								<goal>npm</goal>
+							</goals>
+							<configuration>
+								<skip>${skipNpmInstall}</skip>
+								<skipTests>${skipNpmInstall}</skipTests>
+								<arguments>audit fix</arguments>
+							</configuration>
+						</execution>
+						
+						<execution>
+							<id>npm-lint</id>
+							<phase>process-sources</phase>
+							<goals>
+								<goal>npm</goal>
+							</goals>
+							<configuration>
+								<arguments>run-script lint</arguments>
+							</configuration>
+						</execution>
+						<execution>
+							<id>npm-build</id>
+							<phase>compile</phase>
+							<goals>
+								<goal>npm</goal>
+							</goals>
+							<configuration>
+								<arguments>run-script build</arguments>
+							</configuration>
+						</execution>
+						<execution>
+							<id>npm-test</id>
+							<phase>test</phase>
+							<goals>
+								<goal>npm</goal>
+							</goals>
+							<configuration>
+								<arguments>run-script test</arguments>
+							</configuration>
+						</execution>
+						<execution>
+							<id>npm-e2e</id>
+							<phase>integration-test</phase>
+							<goals>
+								<goal>npm</goal>
+							</goals>
+							<configuration>
+								<arguments>run-script e2e</arguments>
+							</configuration>
+						</execution>
+					</executions>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-surefire-plugin</artifactId>
+					<version>${surefire.version}</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-war-plugin</artifactId>
+					<version>3.2.2</version>
+					<executions>
+						<execution>
+							<id>default-war</id>
+							<phase>package</phase>
+							<goals>
+								<goal>war</goal>
+							</goals>
+						</execution>
+					</executions>
+					<configuration>
+						<failOnMissingWebXml>false</failOnMissingWebXml>
+						<warSourceDirectory>dist/${project.artifactId}</warSourceDirectory>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.eclipse.jetty</groupId>
+					<artifactId>jetty-maven-plugin</artifactId>
+					<version>9.4.14.v20181114</version>
+					<!-- start jetty server: mvn jetty:run-war -->
+					<!-- stop jetty server:  ctrl+c -->
+					<configuration>
+						<httpConnector>
+							<port>80</port>
+						</httpConnector>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+		
+		<plugins>
+			<!-- <plugin>
+				<groupId>com.github.eirslett</groupId>
+				<artifactId>frontend-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>npm-np-new-simple-app</id>
+						<goals>
+							<goal>npm</goal>
+						</goals>
+						<configuration>
+							<arguments>run-script ng-new-simple-app</arguments>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin> -->
+		</plugins>
+	</build>
+	
+	<profiles>
+		<profile>
+			<id>development</id>
+			<properties>
+				<skipNpmInstall>true</skipNpmInstall>
+			</properties>
+		</profile>
+		<profile>
+			<id>production</id>
+		</profile>
+	</profiles>
+</project>
